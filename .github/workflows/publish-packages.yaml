@@ -6,47 +6,6 @@ on:
       - main
   workflow_dispatch:
 
-# jobs:
-#   publish-packages:
-#     runs-on: ubuntu-20.04
-
-#     steps:
-#       - name: Check out the repo
-#         uses: actions/checkout@v2
-
-#       - name: Install imgpkg
-#         shell: bash
-#         run: |
-#           wget -nv -O- https://github.com/vmware-tanzu/carvel-imgpkg/releases/download/v0.28.0/imgpkg-linux-amd64 > /tmp/imgpkg
-#           chmod 755 /tmp/imgpkg
-
-#       - name: Calculate variables
-#         run: |
-#           echo "REPOSITORY_SHA7=${GITHUB_SHA::7}" >>${GITHUB_ENV}
-
-#       - name: Build and publish tce-0.11
-#         shell: bash
-#         run: |
-#           packages/tce-0.11/build.sh
-#           /tmp/imgpkg push -i ghcr.io/${{github.repository}}/tce-0.11:sha-${REPOSITORY_SHA7} -f packages/tce-0.11 --registry-username=${{github.actor}} --registry-password=${{secrets.GITHUB_TOKEN}}
-
-#       - name: Build and publish tce-0.12
-#         shell: bash
-#         run: |
-#           packages/tce-0.12/build.sh
-#           /tmp/imgpkg push -i ghcr.io/${{github.repository}}/tce-0.12:sha-${REPOSITORY_SHA7} -f packages/tce-0.12 --registry-username=${{github.actor}} --registry-password=${{secrets.GITHUB_TOKEN}}
-
-#       #- name: Build and publish azure-cli
-#       #  shell: bash
-#       #  run: |
-#       #    packages/azure-cli/build.sh
-#       #    /tmp/imgpkg push -i ghcr.io/${{github.repository}}/azure-cli:sha-${REPOSITORY_SHA7} -f /opt/packages/azure-cli --registry-username=${{github.actor}} --registry-password=${{secrets.GITHUB_TOKEN}}
-
-#       - name: Build and publish argocd-2.10.6
-#         shell: bash
-#         run: |
-#           packages/argocd-2.10.6/build.sh
-#           /tmp/imgpkg push -i ghcr.io/${{github.repository}}/argocd-2.10.6:sha-${REPOSITORY_SHA7} -f packages/argocd-2.10.6 --registry-username=${{github.actor}} --registry-password=${{secrets.GITHUB_TOKEN}}
 jobs:
   publish-packages:
     runs-on: ubuntu-latest
@@ -74,6 +33,7 @@ jobs:
         run: |
           IFS=$'\n' DIRS=( $(find packages -type d -mindepth 2 -maxdepth 2 -print) )
           for DIR in $DIRS; do
-            PACKAGE=$(echo $DIR | awk -F"/" '{ print $(NF-1)"-"$NF }')
+            PACKAGE=$(echo $DIR | awk -F"/" '{ print $(NF-1)":"$NF }')
+            echo "Pushing package $PACKAGE from $DIR into ghcr.io/${{github.repository}}/$PACKAGE"
             imgpkg push -i ghcr.io/${{github.repository}}/$PACKAGE -f $DIR --registry-username=${{github.actor}} --registry-password=${{secrets.GITHUB_TOKEN}}
           done
