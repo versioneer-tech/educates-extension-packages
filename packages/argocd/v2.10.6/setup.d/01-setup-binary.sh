@@ -5,8 +5,8 @@ set -eo pipefail
 
 PACKAGE_DIR=$(cd "$(dirname $BASH_SOURCE)/.."; pwd)
 
+# Do whatever is needed
 # Rename the binary
-mv $PACKAGE_DIR/bin/argocd-linux-amd64 $PACKAGE_DIR/bin/argocd 
+mv $PACKAGE_DIR/bin/argocd-linux-amd64 $PACKAGE_DIR/bin/argocd
 
-# Make the binary executable
-chmod 755 $PACKAGE_DIR/bin/argocd
+unset PACKAGE_DIR

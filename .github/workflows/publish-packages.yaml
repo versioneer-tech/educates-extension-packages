@@ -21,6 +21,9 @@ jobs:
       - name: vendir sync
         run: vendir sync
 
+      - name: Fix permissions of any binary in package/version/bin
+        run: fix-permissions.sh
+
       # - name: Calculate variables
       #   shell: bash
       #   run: |

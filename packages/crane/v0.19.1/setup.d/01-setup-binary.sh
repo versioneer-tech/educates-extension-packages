@@ -5,5 +5,7 @@ set -eo pipefail
 
 PACKAGE_DIR=$(cd "$(dirname $BASH_SOURCE)/.."; pwd)
 
-# Make the binary executable
-chmod 755 $PACKAGE_DIR/bin/crane
+# Do whatever is needed
+
+
+unset PACKAGE_DIR
