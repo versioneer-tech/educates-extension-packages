@@ -1,6 +1,6 @@
 #!/bin/sh
 
-IFS=$'\n' DIRS=( $(find packages -type d -mindepth 2 -maxdepth 2 -print) )
+DIRS=$(find packages -type d -mindepth 2 -maxdepth 2 -print)
 for DIR in ${DIRS[@]}; do
    # For every file in this directory
    for FILE in $(find $DIR -type f); do
