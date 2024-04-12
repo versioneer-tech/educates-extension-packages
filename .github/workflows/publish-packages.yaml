@@ -34,7 +34,7 @@ jobs:
 
       - name: Iterate over directories
         run: |
-          DIRS=$(find packages -type d -mindepth 2 -maxdepth 2 -print)
+          DIRS=$(find packages -mindepth 2 -maxdepth 2 -type d -print)
           for DIR in ${DIRS[@]}; do
             PACKAGE=$(echo $DIR | awk -F"/" '{ print $(NF-1)":"$NF }')
             echo "Pushing package $PACKAGE from $DIR into ghcr.io/${{github.repository}}/$PACKAGE"

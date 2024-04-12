@@ -1,6 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
-DIRS=$(find packages -type d -mindepth 2 -maxdepth 2 -print)
+# Allow this script to fail without failing a build
+set +e
+
+DIRS=$(find packages -mindepth 2 -maxdepth 2 -type d -print)
 for DIR in ${DIRS[@]}; do
    # For every file in this directory
    for FILE in $(find $DIR -type f); do
