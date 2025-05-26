@@ -4,6 +4,50 @@ kind: Config
 minimumRequiredVersion: 0.26.0
 
 directories:
+  - path: packages/educates/v3.3.2/bin
+    contents:
+      - path: .
+        githubRelease:
+          # https://github.com/educates/educates-training-platform/releases/download/v3.3.2/educates-linux-amd64
+          slug: educates/educates-training-platform
+          tag: 3.3.2
+          disableAutoChecksumValidation: true
+        includePaths:
+          - educates-linux-amd64
+          - educates-linux-arm64
+  - path: packages/educates/v3.2.2/bin
+    contents:
+      - path: .
+        githubRelease:
+          # https://github.com/educates/educates-training-platform/releases/download/v3.2.2/educates-linux-amd64
+          slug: educates/educates-training-platform
+          tag: 3.2.2
+          disableAutoChecksumValidation: true
+        includePaths:
+          - educates-linux-amd64
+          - educates-linux-arm64
+  - path: packages/educates/v3.1.0/bin
+    contents:
+      - path: .
+        githubRelease:
+          # https://github.com/educates/educates-training-platform/releases/download/v3.1.0/educates-linux-amd64
+          slug: educates/educates-training-platform
+          tag: 3.1.0
+          disableAutoChecksumValidation: true
+        includePaths:
+          - educates-linux-amd64
+          - educates-linux-arm64
+  - path: packages/educates/v3.0.1/bin
+    contents:
+      - path: .
+        githubRelease:
+          # https://github.com/educates/educates-training-platform/releases/download/v3.0.1/educates-linux-amd64
+          slug: educates/educates-training-platform
+          tag: 3.0.1
+          disableAutoChecksumValidation: true
+        includePaths:
+          - argocd-linux-amd64
+          - educates-linux-arm64
   - path: packages/argocd/v2.10.6/bin
     contents:
       - path: .
