@@ -1,0 +1,17 @@
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+
+minimumRequiredVersion: 0.26.0
+
+directories:
+  - path: bin
+    contents:
+      - path: .
+        githubRelease:
+          # https://github.com/educates/educates-training-platform/releases/download/v3.2.2/educates-linux-amd64
+          slug: educates/educates-training-platform
+          tag: 3.2.2
+          disableAutoChecksumValidation: true
+        includePaths:
+          - educates-linux-amd64
+          - educates-linux-arm64

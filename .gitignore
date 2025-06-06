@@ -1,3 +1,5 @@
 .vscode
 *.swp
 **/bin
+**/extensions
+**/vendir.lock.yml

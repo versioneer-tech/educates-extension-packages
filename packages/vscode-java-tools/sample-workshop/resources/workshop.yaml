@@ -1,0 +1,43 @@
+apiVersion: training.educates.dev/v1beta1
+kind: Workshop
+metadata:
+  name: "sample-vscode-gradle-workshop"
+spec:
+  title: "Java Gradle Extensions Sample Workshop"
+  description: "Workshop to sample the Java Gradle extensions"
+  publish:
+    image: "$(image_repository)/sample-vscode-java-gradle-workshop-files:$(workshop_version)"
+  workshop:
+    image: jdk21-environment:*
+    files:
+    - image:
+        url: "$(image_repository)/sample-vscode-java-gradle-workshop-files:$(workshop_version)"
+      includePaths:
+      - /workshop/**
+      - /exercises/**
+      - /README.md
+    packages:
+      - name: vscode-java-tools
+        files:
+          - path: .
+            image:
+              url: $(image_repository)/vscode-java-tools:v0.29.2
+  session:
+    namespaces:
+      budget: large
+    resources:
+      memory: 3Gi
+    applications:
+      terminal:
+        enabled: true
+        layout: split
+      editor:
+        enabled: true
+      console:
+        enabled: false
+      docker:
+        enabled: false
+      registry:
+        enabled: false
+      vcluster:
+        enabled: false

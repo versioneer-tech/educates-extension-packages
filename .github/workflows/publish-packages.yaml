@@ -18,12 +18,6 @@ jobs:
         shell: bash
         run: curl -L https://carvel.dev/install.sh | bash
 
-      - name: vendir sync
-        run: vendir sync
-
-      - name: Fix permissions of any binary in package/version/bin
-        run: ./fix-permissions.sh
-
       # - name: Calculate variables
       #   shell: bash
       #   run: |
@@ -34,9 +28,23 @@ jobs:
 
       - name: Iterate over directories
         run: |
-          DIRS=$(find packages -mindepth 2 -maxdepth 2 -type d -print)
-          for DIR in ${DIRS[@]}; do
-            PACKAGE=$(echo $DIR | awk -F"/" '{ print $(NF-1)":"$NF }')
-            echo "Pushing package $PACKAGE from $DIR into ghcr.io/${{github.repository}}/$PACKAGE"
-            imgpkg push -i ghcr.io/${{github.repository}}/$PACKAGE -f $DIR --registry-username=${{github.actor}} --registry-password=${{secrets.GITHUB_TOKEN}}
+          PROJECT_DIR=$(pwd)
+
+          PACKAGE_DIRS=$(find packages -mindepth 1 -maxdepth 1 -type d -print)
+          for PACKAGE_DIR in ${PACKAGE_DIRS[@]}; do
+            VERSION_DIRS=$(find $PACKAGE_DIR/v* -mindepth 0 -maxdepth 0 -type d -print)
+            for VERSION_DIR in ${VERSION_DIRS[@]}; do
+              PACKAGE=$(basename $PACKAGE_DIR)
+              VERSION=$(echo $VERSION_DIR | cut -d/ -f3)
+              echo "Publishing package $PACKAGE/$VERSION from $VERSION_DIR"
+                echo "Syncing package $PACKAGE"
+                cd packages/$PACKAGE/$VERSION
+                vendir sync
+                $PROJECT_DIR/scripts/fix-permissions.sh
+                cd $PROJECT_DIR
+                echo "Synced package $PACKAGE"
+                echo "Pushing package $PACKAGE:$VERSION from $VERSION_DIR into ghcr.io/${{github.repository}}/$PACKAGE:$VERSION"
+                imgpkg push -i ghcr.io/${{github.repository}}/$PACKAGE:$VERSION -f $VERSION_DIR --registry-username=${{github.actor}} --registry-password=${{secrets.GITHUB_TOKEN}}
+                echo "Pushed package $PACKAGE:$VERSION from $VERSION_DIR into ghcr.io/${{github.repository}}/$PACKAGE:$VERSION"
+            done
           done
