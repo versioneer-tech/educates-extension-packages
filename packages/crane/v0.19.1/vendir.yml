@@ -1,0 +1,21 @@
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+
+minimumRequiredVersion: 0.26.0
+
+directories:
+  - path: bin
+    contents:
+      - path: .
+        githubRelease:
+          # https://github.com/google/go-containerregistry/releases/download/v0.19.1/go-containerregistry_Linux_x86_64.tar.gz
+          slug: google/go-containerregistry
+          tag: v0.19.1
+          disableAutoChecksumValidation: true
+          assetNames: ["go-containerregistry_Linux_x86_64.tar.gz"]
+          unpackArchive:
+            path: go-containerregistry_Linux_x86_64.tar.gz
+        includePaths:
+          - crane
+        excludePaths:
+          - LICENSE

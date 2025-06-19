@@ -1,0 +1,40 @@
+apiVersion: training.educates.dev/v1beta1
+kind: Workshop
+metadata:
+  name: "sample-argocd-workshop"
+spec:
+  title: "Extensions sample workshop for ArgoCD"
+  description: "Workshop to sample the ArgoCD extensions"
+  publish:
+    image: "$(image_repository)/sample-argocd-workshop-files:$(workshop_version)"
+  workshop:
+    files:
+    - image:
+        url: "$(image_repository)/sample-argocd-workshop-files:$(workshop_version)"
+      includePaths:
+      - /workshop/**
+      - /exercises/**
+      - /README.md
+    packages:
+      - name: argocd
+        files:
+          - path: .
+            image:
+              url: $(image_repository)/argocd:v2.10.6
+  session:
+    namespaces:
+      budget: large
+    applications:
+      terminal:
+        enabled: true
+        layout: split
+      editor:
+        enabled: true
+      console:
+        enabled: false
+      docker:
+        enabled: false
+      registry:
+        enabled: false
+      vcluster:
+        enabled: false

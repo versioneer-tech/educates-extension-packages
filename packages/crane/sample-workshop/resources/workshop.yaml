@@ -1,0 +1,40 @@
+apiVersion: training.educates.dev/v1beta1
+kind: Workshop
+metadata:
+  name: "sample-crane-workshop"
+spec:
+  title: "Extensions sample workshop for Crane"
+  description: "Workshop to sample the Crane extensions"
+  publish:
+    image: "$(image_repository)/sample-crane-workshop-files:$(workshop_version)"
+  workshop:
+    files:
+    - image:
+        url: "$(image_repository)/sample-crane-workshop-files:$(workshop_version)"
+      includePaths:
+      - /workshop/**
+      - /exercises/**
+      - /README.md
+    packages:
+      - name: crane
+        files:
+          - path: .
+            image:
+              url: $(image_repository)/crane:v0.19.1
+  session:
+    namespaces:
+      budget: large
+    applications:
+      terminal:
+        enabled: true
+        layout: split
+      editor:
+        enabled: true
+      console:
+        enabled: false
+      docker:
+        enabled: false
+      registry:
+        enabled: false
+      vcluster:
+        enabled: false

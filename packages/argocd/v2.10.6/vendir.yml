@@ -1,0 +1,17 @@
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+
+minimumRequiredVersion: 0.26.0
+
+directories:
+  - path: bin
+    contents:
+      - path: .
+        githubRelease:
+          # https://github.com/argoproj/argo-cd/releases/download/v2.10.6/argocd-linux-amd64
+          slug: argoproj/argo-cd
+          tag: v2.10.6
+          disableAutoChecksumValidation: true
+        includePaths:
+          - argocd-linux-amd64
+          - argocd-linux-arm64
