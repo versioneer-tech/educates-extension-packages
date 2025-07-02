@@ -12,10 +12,11 @@ located under the `package` directory
 - `educates` command line interface (versions 3.0.1, 3.1.0, 3.2.2 and 3.3.2)
 - `argocd` (version 2.10.6)
 - `crane` (version 0.19.1)
-- `toolhive` from Stacklok (versions 0.0.48, 0.1.1)
+- `toolhive` from Stacklok (versions 0.0.48, 0.1.2)
 - `github` (version 2.74.2)
 - `vscode-java-tools` (version 0.29.2)
 - `vscode-java-tools-oci-overlay` (version 0.29.2)
+- `vscode-roo-code`(version 3.22.5)
 
 The current Extension Package build system assumes you will be downloading external
 resources using `vendir`, then injecting and staging the resources from the extension package
