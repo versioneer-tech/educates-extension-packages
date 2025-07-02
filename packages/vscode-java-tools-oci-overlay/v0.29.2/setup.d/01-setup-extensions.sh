@@ -12,11 +12,11 @@ mkdir -p ~/.local/share/code-server/extensions/
 
 # Remove the platform specific extensions not applicable to the current platform
 if [[ "$PLATFORM_TYPE" == "amd64" ]]; then
-  rm -rf $PACKAGE_DIR/bin/redhat.java-arm64-1.42.0
-  mv $PACKAGE_DIR/bin/redhat.java-amd64-1.42.0 $PACKAGE_DIR/bin/redhat.java-1.42.0
+  rm -rf $PACKAGE_DIR/extensions/redhat.java-arm64-1.42.0
+  mv $PACKAGE_DIR/extensions/redhat.java-amd64-1.42.0 $PACKAGE_DIR/extensions/redhat.java-1.42.0
 else
-  rm -rf $PACKAGE_DIR/bin/redhat.java-amd64-1.42.0
-  mv $PACKAGE_DIR/bin/redhat.java-arm64-1.42.0 $PACKAGE_DIR/bin/redhat.java-1.42.0
+  rm -rf $PACKAGE_DIR/extensions/redhat.java-amd64-1.42.0
+  mv $PACKAGE_DIR/extensions/redhat.java-arm64-1.42.0 $PACKAGE_DIR/extensions/redhat.java-1.42.0
 fi
 
 # Move the extension from

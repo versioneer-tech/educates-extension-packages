@@ -5,10 +5,11 @@ set +e
 # This script changes the permissions of all binaries in the bin directory for execute permissions.
 # It assumes to run in a given package directory of the project, where vendir is run, and the vendir
 # output bin directory is present.
+# For vscode extensions, the bin directory is not present, so we skip it.
 
 if [ ! -d "bin" ]; then
-  echo "Run this script where the bin directory is present"
-  exit 1
+  echo "Run this script where/when the bin directory is present"
+  exit 0
 fi
 
 DIRS=$(find bin -mindepth 0 -maxdepth 0 -type d -print)

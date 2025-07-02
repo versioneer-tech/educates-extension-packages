@@ -40,7 +40,7 @@ jobs:
                 echo "Syncing package $PACKAGE"
                 cd packages/$PACKAGE/$VERSION
                 vendir sync
-                $PROJECT_DIR/scripts/fix-permissions.sh
+                $PROJECT_DIR/scripts/fix-permissions.sh || true
                 cd $PROJECT_DIR
                 echo "Synced package $PACKAGE"
                 echo "Pushing package $PACKAGE:$VERSION from $VERSION_DIR into ghcr.io/${{github.repository}}/$PACKAGE:$VERSION"

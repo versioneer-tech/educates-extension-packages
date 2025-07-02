@@ -4,49 +4,49 @@ kind: Config
 minimumRequiredVersion: 0.26.0
 
 directories:
-  - path: bin/redhat.java-arm64-1.42.0
+  - path: extensions/redhat.java-arm64-1.42.0
     contents:
       - path: .
         http:
           url: https://github.com/redhat-developer/vscode-java/releases/download/v1.42.0/java-linux-arm64-1.42.0-561.vsix
           disableUnpack: true
-  - path: bin/redhat.java-amd64-1.42.0
+  - path: extensions/redhat.java-amd64-1.42.0
     contents:
       - path: .
         http:
           url: https://github.com/redhat-developer/vscode-java/releases/download/v1.42.0/java-linux-x64-1.42.0-561.vsix
           disableUnpack: true
-  - path: bin/vscjava.vscode-java-dependency-0.24.1
+  - path: extensions/vscjava.vscode-java-dependency-0.24.1
     contents:
       - path: .
         http:
           url: https://open-vsx.org/api/vscjava/vscode-java-dependency/0.24.1/file/vscjava.vscode-java-dependency-0.24.1.vsix
           disableUnpack: true
-  - path: bin/vscjava.vscode-java-test-0.43.1
+  - path: extensions/vscjava.vscode-java-test-0.43.1
     contents:
       - path: .
         http:
           url: https://open-vsx.org/api/vscjava/vscode-java-test/0.43.1/file/vscjava.vscode-java-test-0.43.1.vsix
           disableUnpack: true
-  - path: bin/vscjava.vscode-maven-0.44.0
+  - path: extensions/vscjava.vscode-maven-0.44.0
     contents:
       - path: .
         http:
           url: https://open-vsx.org/api/vscjava/vscode-maven/0.44.0/file/vscjava.vscode-maven-0.44.0.vsix
           disableUnpack: true
-  - path: bin/vscjava.vscode-gradle-3.15.0
+  - path: extensions/vscjava.vscode-gradle-3.15.0
     contents:
       - path: .
         http:
           url: https://open-vsx.org/api/vscjava/vscode-gradle/3.15.0/file/vscjava.vscode-gradle-3.15.0.vsix
           disableUnpack: true
-  - path: bin/vscjava.vscode-java-debug-0.58.2
+  - path: extensions/vscjava.vscode-java-debug-0.58.2
     contents:
       - path: .
         http:
           url: https://open-vsx.org/api/vscjava/vscode-java-debug/0.58.2/file/vscjava.vscode-java-debug-0.58.2.vsix
           disableUnpack: true
-  - path: bin/vscjava.vscode-java-pack-0.29.2
+  - path: extensions/vscjava.vscode-java-pack-0.29.2
     contents:
       - path: .
         http:
