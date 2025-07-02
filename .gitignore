@@ -3,3 +3,4 @@
 **/bin
 **/extensions
 **/vendir.lock.yml
+**/.vendir-tmp-*/

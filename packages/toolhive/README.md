@@ -1,4 +1,4 @@
-# Educates Command Line Interface
+# Stacklok's Toolhive Command Line Interface
 
 Extension package to add [toolhive](https://github.com/stacklok/toolhive) cli.
 

@@ -16,5 +16,5 @@ spec:
         files:
           - path: .
             image:
-              url: $(image_repository)/thv:v0.0.48
+              url: $(image_repository)/toolhive:v0.1.2
 ```

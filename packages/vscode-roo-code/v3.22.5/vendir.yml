@@ -1,0 +1,10 @@
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+
+directories:
+  - path: extensions
+    contents:
+      - path: .
+        http:
+          url: https://open-vsx.org/api/RooVeterinaryInc/roo-cline/3.22.5/file/RooVeterinaryInc.roo-cline-3.22.5.vsix
+          disableUnpack: true

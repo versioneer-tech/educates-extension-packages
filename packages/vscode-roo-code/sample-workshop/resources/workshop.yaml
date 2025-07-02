@@ -1,29 +1,29 @@
 apiVersion: training.educates.dev/v1beta1
 kind: Workshop
 metadata:
-  name: "sample-toolhive-workshop-"
+  name: "sample-vscode-roo-code-workshop"
 spec:
-  title: "Toolhive extensions sample workshop for Educates"
-  description: "Workshop to sample the Toolhive Educates extension package"
+  title: "VSCode Roo Code Extensions Sample Workshop"
+  description: "Workshop to sample the VSCode Roo Code extensions"
   publish:
-    image: "$(image_repository)/sample-toolhive-workshop-files:$(workshop_version)"
+    image: "$(image_repository)/sample-vscode-roo-code-workshop-files:$(workshop_version)"
   workshop:
     files:
     - image:
-        url: "$(image_repository)/sample-toolhive-workshop--files:$(workshop_version)"
+        url: "$(image_repository)/sample-vscode-roo-code-workshop-files:$(workshop_version)"
       includePaths:
       - /workshop/**
-      - /exercises/**
-      - /README.md
     packages:
-      - name: toolhive
+      - name: vscode-roo-code
         files:
           - path: .
             image:
-              url: $(image_repository)/toolhive:v0.1.2
+              url: $(image_repository)/vscode-roo-code:v3.22.5
   session:
     namespaces:
       budget: large
+    resources:
+      memory: 3Gi
     applications:
       terminal:
         enabled: true

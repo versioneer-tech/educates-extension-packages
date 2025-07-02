@@ -1,26 +1,26 @@
 apiVersion: training.educates.dev/v1beta1
 kind: Workshop
 metadata:
-  name: "sample-toolhive-workshop-"
+  name: "sample-github-extension-workshop"
 spec:
-  title: "Toolhive extensions sample workshop for Educates"
-  description: "Workshop to sample the Toolhive Educates extension package"
+  title: "GitHub CLI Extensions sample workshop"
+  description: "Workshop to sample the GitHub CLI extension for Educates"
   publish:
-    image: "$(image_repository)/sample-toolhive-workshop-files:$(workshop_version)"
+    image: "$(image_repository)/sample-github-extension-workshop-files:$(workshop_version)"
   workshop:
     files:
     - image:
-        url: "$(image_repository)/sample-toolhive-workshop--files:$(workshop_version)"
+        url: "$(image_repository)/sample-github-extension-workshop-files:$(workshop_version)"
       includePaths:
       - /workshop/**
       - /exercises/**
       - /README.md
     packages:
-      - name: toolhive
+      - name: github
         files:
           - path: .
             image:
-              url: $(image_repository)/toolhive:v0.1.2
+              url: $(image_repository)/github:v2.74.2
   session:
     namespaces:
       budget: large

@@ -11,7 +11,10 @@ publish_package() {
 
   echo "Syncing package $PACKAGE"
   cd packages/$PACKAGE/$VERSION
-  vendir sync
+  if [[ ! -e "vendir.lock.yml" ]]; then
+    echo "vendir.lock.yml not found, running vendir sync"
+    vendir sync
+  fi
   $PROJECT_DIR/scripts/fix-permissions.sh
   cd $PROJECT_DIR
   echo "Synced package $PACKAGE"

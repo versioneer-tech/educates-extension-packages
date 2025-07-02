@@ -1,0 +1,31 @@
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+
+minimumRequiredVersion: 0.26.0
+
+directories:
+  - path: bin
+    contents:
+      - path: amd64
+        githubRelease:
+          # https://github.com/cli/cli/releases/download/v2.74.2/gh_2.74.2_linux_amd64.tar.gz
+          slug: cli/cli
+          tag: v2.74.2
+          disableAutoChecksumValidation: true
+          assetNames:
+            - gh_2.74.2_linux_amd64.tar.gz
+          unpackArchive:
+            path: gh_2.74.2_linux_amd64.tar.gz
+        includePaths:
+            - gh_2.74.2_linux_amd64/bin/gh
+      - path: arm64
+        githubRelease:
+          slug: cli/cli
+          tag: v2.74.2
+          disableAutoChecksumValidation: true
+          assetNames:
+            - gh_2.74.2_linux_arm64.tar.gz
+          unpackArchive:
+            path: gh_2.74.2_linux_arm64.tar.gz
+        includePaths:
+            - gh_2.74.2_linux_arm64/bin/gh            
