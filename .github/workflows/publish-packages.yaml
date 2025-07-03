@@ -20,7 +20,9 @@ jobs:
         id: set-matrix
         run: |
           PACKAGE_DIRS=$(find packages -mindepth 1 -maxdepth 1 -type d -print)
-          MATRIX_ENTRIES="[]"
+          
+          # Create a temporary file to build the JSON array
+          echo '[]' > /tmp/matrix.json
           
           for PACKAGE_DIR in ${PACKAGE_DIRS[@]}; do
             VERSION_DIRS=$(find $PACKAGE_DIR/v* -mindepth 0 -maxdepth 0 -type d -print)
@@ -28,16 +30,19 @@ jobs:
               PACKAGE=$(basename $PACKAGE_DIR)
               VERSION=$(echo $VERSION_DIR | cut -d/ -f3)
               
-              # Add to matrix JSON array
-              MATRIX_ENTRY="{\"package\":\"$PACKAGE\",\"version\":\"$VERSION\",\"package_dir\":\"$PACKAGE_DIR\",\"version_dir\":\"$VERSION_DIR\"}"
-              if [ "$MATRIX_ENTRIES" = "[]" ]; then
-                MATRIX_ENTRIES="[$MATRIX_ENTRY]"
-              else
-                MATRIX_ENTRIES=$(echo $MATRIX_ENTRIES | jq ". += [$MATRIX_ENTRY]")
-              fi
+              # Add entry to JSON array using jq
+              jq --arg pkg "$PACKAGE" \
+                 --arg ver "$VERSION" \
+                 --arg pkg_dir "$PACKAGE_DIR" \
+                 --arg ver_dir "$VERSION_DIR" \
+                 '. += [{"package": $pkg, "version": $ver, "package_dir": $pkg_dir, "version_dir": $ver_dir}]' \
+                 /tmp/matrix.json > /tmp/matrix_new.json
+              mv /tmp/matrix_new.json /tmp/matrix.json
             done
           done
           
+          # Read the final JSON and set it as output
+          MATRIX_ENTRIES=$(cat /tmp/matrix.json)
           echo "matrix=$MATRIX_ENTRIES" >> $GITHUB_OUTPUT
           echo "Matrix entries: $MATRIX_ENTRIES"
 
