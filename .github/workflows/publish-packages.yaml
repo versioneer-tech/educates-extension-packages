@@ -7,8 +7,46 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish-packages:
+  discover-packages:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set matrix
+        id: set-matrix
+        run: |
+          PACKAGE_DIRS=$(find packages -mindepth 1 -maxdepth 1 -type d -print)
+          MATRIX_ENTRIES="[]"
+          
+          for PACKAGE_DIR in ${PACKAGE_DIRS[@]}; do
+            VERSION_DIRS=$(find $PACKAGE_DIR/v* -mindepth 0 -maxdepth 0 -type d -print)
+            for VERSION_DIR in ${VERSION_DIRS[@]}; do
+              PACKAGE=$(basename $PACKAGE_DIR)
+              VERSION=$(echo $VERSION_DIR | cut -d/ -f3)
+              
+              # Add to matrix JSON array
+              MATRIX_ENTRY="{\"package\":\"$PACKAGE\",\"version\":\"$VERSION\",\"package_dir\":\"$PACKAGE_DIR\",\"version_dir\":\"$VERSION_DIR\"}"
+              if [ "$MATRIX_ENTRIES" = "[]" ]; then
+                MATRIX_ENTRIES="[$MATRIX_ENTRY]"
+              else
+                MATRIX_ENTRIES=$(echo $MATRIX_ENTRIES | jq ". += [$MATRIX_ENTRY]")
+              fi
+            done
+          done
+          
+          echo "matrix=$MATRIX_ENTRIES" >> $GITHUB_OUTPUT
+          echo "Matrix entries: $MATRIX_ENTRIES"
+
+  publish-packages:
+    needs: discover-packages
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include: ${{ fromJson(needs.discover-packages.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -26,25 +64,10 @@ jobs:
       #     echo "REPOSITORY_TAG=${GITHUB_REF##*/}" >>${GITHUB_ENV}
       #     echo "REPOSITORY_SHA_TAG=sha-${GITHUB_SHA::7}" >>${GITHUB_ENV}
 
-      - name: Iterate over directories
+      - name: Publish package ${{ matrix.package }}:${{ matrix.version }}
         run: |
-          PROJECT_DIR=$(pwd)
-
-          PACKAGE_DIRS=$(find packages -mindepth 1 -maxdepth 1 -type d -print)
-          for PACKAGE_DIR in ${PACKAGE_DIRS[@]}; do
-            VERSION_DIRS=$(find $PACKAGE_DIR/v* -mindepth 0 -maxdepth 0 -type d -print)
-            for VERSION_DIR in ${VERSION_DIRS[@]}; do
-              PACKAGE=$(basename $PACKAGE_DIR)
-              VERSION=$(echo $VERSION_DIR | cut -d/ -f3)
-              echo "Publishing package $PACKAGE/$VERSION from $VERSION_DIR"
-                echo "Syncing package $PACKAGE"
-                cd packages/$PACKAGE/$VERSION
-                vendir sync
-                $PROJECT_DIR/scripts/fix-permissions.sh || true
-                cd $PROJECT_DIR
-                echo "Synced package $PACKAGE"
-                echo "Pushing package $PACKAGE:$VERSION from $VERSION_DIR into ghcr.io/${{github.repository}}/$PACKAGE:$VERSION"
-                imgpkg push -i ghcr.io/${{github.repository}}/$PACKAGE:$VERSION -f $VERSION_DIR --registry-username=${{github.actor}} --registry-password=${{secrets.GITHUB_TOKEN}}
-                echo "Pushed package $PACKAGE:$VERSION from $VERSION_DIR into ghcr.io/${{github.repository}}/$PACKAGE:$VERSION"
-            done
-          done
+          ./scripts/push-extension.sh \
+            --registry ghcr.io/${{github.repository}} \
+            --registry-username ${{github.actor}} \
+            --registry-password ${{secrets.GITHUB_TOKEN}} \
+            ${{ matrix.package }} ${{ matrix.version }}

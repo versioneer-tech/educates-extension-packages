@@ -1,0 +1,40 @@
+apiVersion: training.educates.dev/v1beta1
+kind: Workshop
+metadata:
+  name: "sample-vscode-continue-dev-workshop"
+spec:
+  title: "VSCode Continue.dev Extensions Sample Workshop"
+  description: "Workshop to sample the VSCode Continue.dev extensions"
+  publish:
+    image: "$(image_repository)/sample-vscode-continue-dev-workshop-files:$(workshop_version)"
+  workshop:
+    files:
+    - image:
+        url: "$(image_repository)/sample-vscode-continue-dev-workshop-files:$(workshop_version)"
+      includePaths:
+      - /workshop/**
+    packages:
+      - name: vscode-continue-dev
+        files:
+          - path: .
+            image:
+              url: $(image_repository)/vscode-continue-dev:v1.1.52
+  session:
+    namespaces:
+      budget: large
+    resources:
+      memory: 3Gi
+    applications:
+      terminal:
+        enabled: true
+        layout: split
+      editor:
+        enabled: true
+      console:
+        enabled: false
+      docker:
+        enabled: false
+      registry:
+        enabled: false
+      vcluster:
+        enabled: false

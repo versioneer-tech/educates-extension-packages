@@ -22,7 +22,7 @@ The current Extension Package build system assumes you will be downloading exter
 resources using `vendir`, then injecting and staging the resources from the extension package
 into a workshop session using the `setup.d` hooks.
 
-You can also use the `publish-package-locally.sh` command to develop locally.
+You can also use the `push-extension.sh` command to develop locally.
 
 There are no binaries in this repo, but the [GH action](.github/workflows/publish-packages.yaml) will fetch them using
 the provided [vendir.yml](./vendir.yml) configurations.
@@ -99,20 +99,30 @@ extension `ghcr.io/educates/educates-extension-packages/argocd:v2.10.6` but the 
 
 If you have a local Educates cluster running,
 you can publish the extension packages to your local cluster with the
-`scripts/publish-locally.sh` script.
+`scripts/push-extension.sh` script.
 
 Make sure you have the `KUBECONFIG` set in your terminal session to point to your local cluster,
 so the `educates` cli can talk to it.
 
 You can use this also if you want to fork and develop your own extensions.
 
-The `publish-locally.sh` script also allows you to publish a single extension package version.
+The `push-extension.sh` script also allows you to publish a single extension package version.
 This simplifies inner loop development flow:
 
 From the project root directory, run the following:
 
 ```bash
-./scripts/publish-locally.sh <package> <version>
+# Default behavior (localhost:5001, no auth)
+./scripts/push-extension.sh
+
+# Publish specific package and version
+./scripts/push-extension.sh <package> <version>
+
+# With custom registry
+./scripts/push-extension.sh --registry ghcr.io/myorg <package> <version>
+
+# With authentication
+./scripts/push-extension.sh --registry ghcr.io/myorg --registry-username myuser --registry-password mypass <package> <version>
 ```
 
 where the package and version has a sub-directory tree under the `packages` directory:
@@ -122,7 +132,13 @@ where the package and version has a sub-directory tree under the `packages` dire
 For example, if wanting to publish the `argocd:v2.10.6` package locally, run the following:
 
 ```bash
-./scripts/publish-locally.sh argocd v2.10.6
+./scripts/push-extension.sh argocd v2.10.6
+```
+
+Or with a custom registry:
+
+```bash
+./scripts/push-extension.sh --registry ghcr.io/myorg argocd v2.10.6
 ```
 
 ### Extension Package source structure
@@ -173,8 +189,21 @@ Each of the extension packages have an accompanying sample workshop
 that demonstrate how to configure and use the extension package features.
 
 If you want to publish and deploy the workshops locally,
-run the `./scripts/publish-locally.sh` first to publish the extension packages locally,
-then run the `./scripts/publish-and-deploy-local-workshops.sh` convenience script locally.
+run the `./scripts/push-extension.sh` first to publish the extension packages locally,
+then run the `./scripts/publish-and-deploy-workshops.sh` convenience script locally.
 
 It will publish, deploy, and open a browser window to the training portal dashboard
 with all the sample workshops.
+
+You can also publish and deploy a specific workshop by providing the package name:
+
+```bash
+# Publish and deploy all workshops (default)
+./scripts/publish-and-deploy-workshops.sh
+
+# Publish and deploy only the argocd workshop
+./scripts/publish-and-deploy-workshops.sh argocd
+
+# Publish and deploy only the educates workshop
+./scripts/publish-and-deploy-workshops.sh educates
+```
