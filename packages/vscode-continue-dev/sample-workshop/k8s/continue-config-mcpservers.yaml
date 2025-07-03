@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: continue-config-mcpservers
+  namespace: default
+type: Opaque
+stringData:
+  mcp-servers.yaml: |
+    #@ load("@ytt:overlay", "overlay")
+
+    ---
+    name: Educates MCP Server Configuration
+    version: 0.0.1
+    schema: v1
+    mcpServers:
+
+    #@overlay/match by=overlay.all
+    ---
+    mcpServers:
+    #@overlay/match by="name",expects="0+"
+    - name: fetch
+      type: streamable-http
+      url:  http://127.0.0.1:36648/mcp

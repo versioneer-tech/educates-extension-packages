@@ -6,17 +6,18 @@ uses of Educates extension packages.
 You can any of them directly,
 or as examples of how to create your own.
 
-The following are list of current versions of extension packages,
+The following are list of current extension packages,
 located under the `package` directory
 
-- `educates` command line interface (versions 3.0.1, 3.1.0, 3.2.2 and 3.3.2)
-- `argocd` (version 2.10.6)
-- `crane` (version 0.19.1)
-- `toolhive` from Stacklok (versions 0.0.48, 0.1.2)
-- `github` (version 2.74.2)
-- `vscode-java-tools` (version 0.29.2)
-- `vscode-java-tools-oci-overlay` (version 0.29.2)
-- `vscode-roo-code`(version 3.22.5)
+- [educates](packages/educates/)
+- [argocd](packages/argocd/)
+- [crane](packages/crane/)
+- [toolhive from Stacklok](packages/toolhive/)
+- [github](packages/github/)
+- [vscode-java-tools](packages/vscode-java-tools/)
+- [vscode-java-tools-oci-overlay](packages/vscode-java-tools-oci-overlay/)
+- [vscode-roo-code](packages/vscode-roo-code/)
+- [vscode-continue-dev](packages/vscode-continue-dev/)
 
 The current Extension Package build system assumes you will be downloading external
 resources using `vendir`, then injecting and staging the resources from the extension package

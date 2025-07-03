@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: continue-config-models
+  namespace: default
+type: Opaque
+stringData:
+  litellm-educates-model.yaml: |
+    #@ load("@ytt:overlay", "overlay")
+
+    #@overlay/match by=overlay.all
+    ---
+    models:
+    #@overlay/match by="name",expects="0+"
+    - name: LiteLLM
+      provider: openai
+      model: gemini/gemini-2.5-flash
+      apiBase: http://litellm.litellm.svc.cluster.local:4000
+      apiKey: sk-5678
+      roles:
+        - chat
+        - edit
+        - apply
+
+  deepseek-educates-model.yaml: |
+    #@ load("@ytt:overlay", "overlay")
+
+    #@overlay/match by=overlay.all
+    ---
+    models:
+    #@overlay/match by="name",expects="0+"
+    - name: deepseek
+      provider: ollama
+      model: tom_himanen/deepseek-r1-roo-cline-tools:8b
+      apiBase: http://ollama.ollama.svc.cluster.local:11434

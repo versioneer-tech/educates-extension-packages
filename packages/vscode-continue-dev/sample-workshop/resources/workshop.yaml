@@ -38,3 +38,23 @@ spec:
         enabled: false
       vcluster:
         enabled: false
+    volumes:
+      - name: continue-config-models
+        secret:
+          secretName: continue-config-models
+      - name: continue-config-mcpservers
+        secret:
+          secretName: continue-config-mcpservers
+    volumeMounts:
+      - name: continue-config-models
+        mountPath: /opt/continue/config/models/
+        readOnly: true
+      - name: continue-config-mcpservers
+        mountPath: /opt/continue/config/mcpservers/
+        readOnly: true
+  environment:
+    secrets:
+    - name: continue-config-models
+      namespace: default
+    - name: continue-config-mcpservers
+      namespace: default

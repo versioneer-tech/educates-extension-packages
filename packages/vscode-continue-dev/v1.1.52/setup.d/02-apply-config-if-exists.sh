@@ -4,21 +4,34 @@ set -x
 set -eo pipefail
 
 PACKAGE_DIR=$(cd "$(dirname $BASH_SOURCE)/.."; pwd)
+
 # You will need to mount config files into this directory for them to be applied
-PACKAGE_CONFIG_DIR=/opt/litellm/config/
+MODELS_CONFIG_DIR=/opt/continue/config/models
+MCPSERVERS_CONFIG_DIR=/opt/continue/config/mcpservers
 
 # Make sure this directory exists
 mkdir -p ~/.continue/
-# Save previous copy of config.yaml as backup if it exists
-mv ~/.continue/config.yaml ~/.continue/config.yaml.bak || true
+mkdir -p ~/.continue/mcpServers/
+
 # Process config updates via ytt
-# This will merge the existing config with the overlay
-if [ ! -e $PACKAGE_CONFIG_DIR ]; then
-  echo "Error: $PACKAGE_CONFIG_DIR does not exist. No configuration will be applied."
+# This will merge the existing config with the overlay for models
+if [ ! -e $MODELS_CONFIG_DIR ]; then
+  echo "Error: $MODELS_CONFIG_DIR does not exist. No models will be configured."
 else
-  ytt -f $PACKAGE_DIR/default-config.yaml -f $PACKAGE_CONFIG_DIR --allow-symlink-destination  $PACKAGE_CONFIG_DIR > ~/.continue/config.yaml
+  # We need to use the ..data directory as the config directory is symlinked to the timestamped directory of the mounted secret
+  ytt -f $PACKAGE_DIR/default-config.yaml -f $MODELS_CONFIG_DIR/..data/ > ~/.continue/config.yaml || true
   echo "Updated ~/.continue/config.yaml with overlay"
 fi
 
-unset PACKAGE_CONFIG_DIR
+# This will merge the existing config with the overlay for mcp servers
+if [ ! -e $MCPSERVERS_CONFIG_DIR ]; then
+  echo "Error: $MCPSERVERS_CONFIG_DIR does not exist. No mcp servers will be configured."
+else
+  # We need to use the ..data directory as the config directory is symlinked to the timestamped directory of the mounted secret
+  ytt -f $MCPSERVERS_CONFIG_DIR/..data/ > ~/.continue/mcpServers/educates-mcp-servers.yaml || true
+  echo "Updated ~/.continue/mcpServers/educates-mcp-servers.yaml with overlay"
+fi
+
+unset MODELS_CONFIG_DIR
+unset MCPSERVERS_CONFIG_DIR
 unset PACKAGE_DIR
