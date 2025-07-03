@@ -41,8 +41,8 @@ jobs:
             done
           done
           
-          # Read the final JSON and set it as output
-          MATRIX_ENTRIES=$(cat /tmp/matrix.json)
+          # Read the final JSON and set it as output (compact format, no pretty printing)
+          MATRIX_ENTRIES=$(jq -c '.' /tmp/matrix.json)
           echo "matrix=$MATRIX_ENTRIES" >> $GITHUB_OUTPUT
           echo "Matrix entries: $MATRIX_ENTRIES"
 
