@@ -1,0 +1,26 @@
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+
+minimumRequiredVersion: 0.26.0
+
+directories:
+  - path: bin
+    contents:
+      - path: amd64
+        githubRelease:
+          slug: stacklok/toolhive
+          tag: v0.1.7
+          disableAutoChecksumValidation: true
+          assetNames:
+            - toolhive_0.1.7_linux_amd64.tar.gz
+          unpackArchive:
+            path: toolhive_0.1.7_linux_amd64.tar.gz
+      - path: arm64
+        githubRelease:
+          slug: stacklok/toolhive
+          tag: v0.1.7
+          disableAutoChecksumValidation: true
+          assetNames:
+            - toolhive_0.1.7_linux_arm64.tar.gz
+          unpackArchive:
+            path: toolhive_0.1.7_linux_arm64.tar.gz            

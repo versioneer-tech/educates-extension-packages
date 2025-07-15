@@ -10,7 +10,7 @@ spec:
   workshop:
     files:
     - image:
-        url: "$(image_repository)/sample-toolhive-workshop--files:$(workshop_version)"
+        url: "$(image_repository)/sample-toolhive-workshop-files:$(workshop_version)"
       includePaths:
       - /workshop/**
       - /exercises/**
@@ -20,7 +20,7 @@ spec:
         files:
           - path: .
             image:
-              url: $(image_repository)/toolhive:v0.1.2
+              url: $(image_repository)/toolhive:v0.1.7
   session:
     namespaces:
       budget: large
