@@ -25,7 +25,7 @@ spec:
           url: ghcr.io/educates/educates-extension-packages/vscode-continue-dev:v1.1.52
 ```
 
-## Configure the extension
+## Configure the extension
 
 This extension can be configured in a global manner. The extension provides hooks
 so that when configuration files (models and mcpservers) are provided to the container, 

@@ -1,0 +1,14 @@
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+
+directories:
+  - path: extensions
+    contents:
+      - path: arm64
+        http:
+          url: https://open-vsx.org/api/Continue/continue/linux-arm64/1.1.63/file/Continue.continue-1.1.63@linux-arm64.vsix
+          disableUnpack: true
+      - path: amd64
+        http:
+          url: https://open-vsx.org/api/Continue/continue/linux-x64/1.1.63/file/Continue.continue-1.1.63@linux-x64.vsix
+          disableUnpack: true          

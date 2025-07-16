@@ -19,7 +19,7 @@ spec:
         files:
           - path: .
             image:
-              url: $(image_repository)/vscode-continue-dev:v1.1.52
+              url: $(image_repository)/vscode-continue-dev:v1.1.63
 ```
 
 Once the extension pack is configured in your workshop manifest,
