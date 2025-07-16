@@ -20,6 +20,10 @@ if [ ! -e $MODELS_CONFIG_DIR ]; then
 else
   # We need to use the ..data directory as the config directory is symlinked to the timestamped directory of the mounted secret
   ytt -f $PACKAGE_DIR/default-config.yaml -f $MODELS_CONFIG_DIR/..data/ > ~/.continue/config.yaml || true
+  # Remove file if it's empty
+  if [ ! -s ~/.continue/config.yaml ]; then
+    rm ~/.continue/config.yaml
+  fi
   echo "Updated ~/.continue/config.yaml with overlay"
 fi
 
@@ -29,6 +33,10 @@ if [ ! -e $MCPSERVERS_CONFIG_DIR ]; then
 else
   # We need to use the ..data directory as the config directory is symlinked to the timestamped directory of the mounted secret
   ytt -f $MCPSERVERS_CONFIG_DIR/..data/ > ~/.continue/mcpServers/educates-mcp-servers.yaml || true
+  # Remove file if it's empty
+  if [ ! -s ~/.continue/mcpServers/educates-mcp-servers.yaml ]; then
+    rm ~/.continue/mcpServers/educates-mcp-servers.yaml
+  fi
   echo "Updated ~/.continue/mcpServers/educates-mcp-servers.yaml with overlay"
 fi
 
