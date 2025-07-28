@@ -12,6 +12,6 @@ if [ "$PLATFORM_ARCH" = "amd64" ]; then
   PLATFORM="x64"
 fi
 
-code-server --install-extension $PACKAGE_DIR/extensions/$PLATFORM/Continue.continue-1.1.63@linux-$PLATFORM.vsix
+code-server --install-extension $PACKAGE_DIR/extensions/$PLATFORM_ARCH/Continue.continue-1.1.63@linux-$PLATFORM.vsix
 
 unset PACKAGE_DIR
