@@ -6,6 +6,10 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   discover-packages:
     runs-on: ubuntu-latest
@@ -19,6 +23,9 @@ jobs:
       - name: Set matrix
         id: set-matrix
         run: |
+          # Define a whitelist of packages to be published
+          WHITELISTED_PACKAGES=("awscli")
+
           PACKAGE_DIRS=$(find packages -mindepth 1 -maxdepth 1 -type d -print)
           
           # Create a temporary file to build the JSON array
@@ -28,16 +35,20 @@ jobs:
             VERSION_DIRS=$(find $PACKAGE_DIR/v* -mindepth 0 -maxdepth 0 -type d -print)
             for VERSION_DIR in ${VERSION_DIRS[@]}; do
               PACKAGE=$(basename $PACKAGE_DIR)
-              VERSION=$(echo $VERSION_DIR | cut -d/ -f3)
-              
-              # Add entry to JSON array using jq
-              jq --arg pkg "$PACKAGE" \
-                 --arg ver "$VERSION" \
-                 --arg pkg_dir "$PACKAGE_DIR" \
-                 --arg ver_dir "$VERSION_DIR" \
-                 '. += [{"package": $pkg, "version": $ver, "package_dir": $pkg_dir, "version_dir": $ver_dir}]' \
-                 /tmp/matrix.json > /tmp/matrix_new.json
-              mv /tmp/matrix_new.json /tmp/matrix.json
+
+              # Check if the package is in the whitelist
+              if [[ " ${WHITELISTED_PACKAGES[@]} " =~ " ${PACKAGE} " ]]; then
+                VERSION=$(echo $VERSION_DIR | cut -d/ -f3)
+                
+                # Add entry to JSON array using jq
+                jq --arg pkg "$PACKAGE" \
+                   --arg ver "$VERSION" \
+                   --arg pkg_dir "$PACKAGE_DIR" \
+                   --arg ver_dir "$VERSION_DIR" \
+                   '. += [{"package": $pkg, "version": $ver, "package_dir": $pkg_dir, "version_dir": $ver_dir}]' \
+                   /tmp/matrix.json > /tmp/matrix_new.json
+                mv /tmp/matrix_new.json /tmp/matrix.json
+              fi
             done
           done
           

@@ -1,0 +1,20 @@
+apiVersion: training.educates.dev/v1beta1
+kind: Workshop
+metadata:
+  name: awscli-sample
+spec:
+  title: AWS CLI Sample
+  description: A sample workshop for using the AWS CLI extension package
+  vendor: versioneer.at
+  difficulty: beginner
+  duration: 5m
+  url: /workshops/awscli-sample/
+  workshop:
+    files:
+    - path: .
+    packages:
+    - name: awscli
+      files:
+      - path: .
+        image:
+          url: $(image_repository)/awscli:v2.29.0

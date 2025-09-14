@@ -1,0 +1,9 @@
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+minimumRequiredVersion: 0.24.0
+directories:
+  - path: vendir
+    contents:
+      - path: .
+        http:
+          url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.29.0.zip
