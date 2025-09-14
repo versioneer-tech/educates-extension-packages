@@ -9,6 +9,10 @@ or as examples of how to create your own.
 The following are list of current extension packages,
 located under the `package` directory
 
+whitelisted:
+- [awscli](packages/awscli/)
+
+not whitelisted:
 - [educates](packages/educates/)
 - [argocd](packages/argocd/)
 - [crane](packages/crane/)
