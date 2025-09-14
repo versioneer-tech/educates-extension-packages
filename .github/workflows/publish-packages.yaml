@@ -24,7 +24,7 @@ jobs:
         id: set-matrix
         run: |
           # Define a whitelist of packages to be published
-          WHITELISTED_PACKAGES=("awscli")
+          WHITELISTED_PACKAGES=("awscli" "rclone")
 
           PACKAGE_DIRS=$(find packages -mindepth 1 -maxdepth 1 -type d -print)
           

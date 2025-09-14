@@ -1,0 +1,20 @@
+apiVersion: training.educates.dev/v1beta1
+kind: Workshop
+metadata:
+  name: rclone-sample
+spec:
+  title: Rclone Sample
+  description: A sample workshop for using the Rclone extension package
+  vendor: versioneer.at
+  difficulty: beginner
+  duration: 5m
+  url: /workshops/rclone-sample/
+  workshop:
+    files:
+    - path: .
+    packages:
+    - name: rclone
+      files:
+      - path: .
+        image:
+          url: $(image_repository)/rclone:v1.71.0

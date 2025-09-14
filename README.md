@@ -11,6 +11,7 @@ located under the `package` directory
 
 whitelisted:
 - [awscli](packages/awscli/)
+- [rclone](packages/rclone/)
 
 not whitelisted:
 - [educates](packages/educates/)
